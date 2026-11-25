@@ -1,9 +1,0 @@
-{
-  "platform": "android",
-  "release": "debug",
-  "config": "config.xml",
-  "www": "www",
-  "description": "Player Android 24/7 auto-atualizável para TV Boxes",
-  "minSdkVersion": 23,
-  "targetSdkVersion": 35
-}
