@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="br.com.player247.tv" version="3.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>Player 24/7</name>
+  <description>Player de mídia Android 24/7 com OTA e suporte a M3U.</description>
+  <content src="index.html" />
+  <access origin="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <preference name="Fullscreen" value="true" />
+  <preference name="Orientation" value="landscape" />
+  <preference name="KeepRunning" value="true" />
+  <preference name="AndroidLaunchMode" value="singleTask" />
+  <preference name="SplashScreenDelay" value="0" />
+  <preference name="DisallowOverscroll" value="true" />
+  <plugin name="cordova-plugin-insomnia" spec="^4.3.0" />
+  <plugin name="cordova-plugin-autostart" spec="^1.0.0" />
+  <platform name="android">
+    <allow-intent href="market:*" />
+    <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/uses-permission">
+      <uses-permission android:name="android.permission.INTERNET" />
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+      <uses-permission android:name="android.permission.WAKE_LOCK" />
+    </edit-config>
+  </platform>
+</widget>
