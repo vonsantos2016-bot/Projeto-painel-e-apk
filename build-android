@@ -1,0 +1,58 @@
+name: Compilar APK Android
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+permissions:
+  contents: read
+
+env:
+  CORDOVA_VERSION: '12.0.0'
+  ANDROID_PLATFORM: 'android@14.0.1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Preparar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Instalar Cordova CLI
+        run: npm install --global cordova@${CORDOVA_VERSION}
+
+      - name: Instalar plataforma Android
+        run: cordova platform add ${ANDROID_PLATFORM} --no-telemetry
+
+      - name: Compilar APK debug
+        run: cordova build android --debug --no-telemetry -- --packageType=apk
+
+      - name: Localizar APK
+        id: apk
+        shell: bash
+        run: |
+          APK=$(find platforms/android -type f -name '*.apk' -path '*outputs*' | head -n 1)
+          test -n "$APK"
+          echo "path=$APK" >> "$GITHUB_OUTPUT"
+          echo "APK gerado em: $APK"
+
+      - name: Publicar APK como artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: player-android-247-debug
+          path: ${{ steps.apk.outputs.path }}
+          if-no-files-found: error
+          retention-days: 14

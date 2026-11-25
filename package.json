@@ -1,0 +1,14 @@
+{
+  "name": "player-android-247",
+  "displayName": "Player Android 24/7",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Player Cordova 24/7 para VoltBuilder e GitHub Actions",
+  "cordova": {
+    "platforms": ["android"],
+    "plugins": {
+      "cordova-plugin-insomnia": {},
+      "cordova-plugin-autostart": {}
+    }
+  }
+}
