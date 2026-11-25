@@ -38,9 +38,18 @@ jobs:
 
       - name: Corrigir android:exported no Manifest
         run: |
-          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.UserPresentReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.UserPresentReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
-          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.PackageReplacedReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.PackageReplacedReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
-          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.BootCompletedReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.BootCompletedReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
+          python3 -c '
+          import xml.etree.ElementTree as ET
+          path = "platforms/android/app/src/main/AndroidManifest.xml"
+          ET.register_namespace("android", "http://android.com")
+          tree = ET.parse(path)
+          ns = "{http://android.com}"
+          for tag in ["receiver", "service", "activity"]:
+              for el in tree.findall(f".//{tag}"):
+                  if el.find("intent-filter") is not None and f"{ns}exported" not in el.attrib:
+                      el.set(f"{ns}exported", "true")
+          tree.write(path, encoding="utf-8", xml_declaration=True)
+          '
 
       - name: Compilar APK debug
         run: cordova build android --debug --no-telemetry -- --packageType=apk
