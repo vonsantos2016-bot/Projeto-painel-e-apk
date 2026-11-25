@@ -1,5 +1,4 @@
-
-    name: Compilar APK Android
+name: Compilar APK Android
 
 on:
   workflow_dispatch:
@@ -30,19 +29,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-        
 
       - name: Instalar Cordova CLI
         run: npm install --global cordova@${CORDOVA_VERSION}
 
       - name: Instalar plataforma Android
         run: cordova platform add ${ANDROID_PLATFORM} --no-telemetry
+
       - name: Corrigir android:exported no Manifest
         run: |
           sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.UserPresentReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.UserPresentReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
           sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.PackageReplacedReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.PackageReplacedReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
           sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.BootCompletedReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.BootCompletedReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
-          
+
       - name: Compilar APK debug
         run: cordova build android --debug --no-telemetry -- --packageType=apk
 
@@ -62,3 +61,4 @@ jobs:
           path: ${{ steps.apk.outputs.path }}
           if-no-files-found: error
           retention-days: 14
+          
