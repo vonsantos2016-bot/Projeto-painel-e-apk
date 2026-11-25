@@ -1,10 +1,5 @@
-      - name: Corrigir android:exported no Manifest
-        run: |
-          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.UserPresentReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.UserPresentReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
-          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.PackageReplacedReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.PackageReplacedReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
-          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.BootCompletedReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.BootCompletedReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
-          
-name: Compilar APK Android
+
+    name: Compilar APK Android
 
 on:
   workflow_dispatch:
@@ -42,7 +37,12 @@ jobs:
 
       - name: Instalar plataforma Android
         run: cordova platform add ${ANDROID_PLATFORM} --no-telemetry
-
+      - name: Corrigir android:exported no Manifest
+        run: |
+          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.UserPresentReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.UserPresentReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
+          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.PackageReplacedReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.PackageReplacedReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
+          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.BootCompletedReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.BootCompletedReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
+          
       - name: Compilar APK debug
         run: cordova build android --debug --no-telemetry -- --packageType=apk
 
