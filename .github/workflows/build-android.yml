@@ -1,3 +1,9 @@
+      - name: Corrigir android:exported no Manifest
+        run: |
+          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.UserPresentReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.UserPresentReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
+          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.PackageReplacedReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.PackageReplacedReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
+          sed -i 's/<receiver android:name="com.tonikorin.cordova.plugin.autostart.BootCompletedReceiver"/<receiver android:exported="true" android:name="com.tonikorin.cordova.plugin.autostart.BootCompletedReceiver"/g' platforms/android/app/src/main/AndroidManifest.xml
+          
 name: Compilar APK Android
 
 on:
