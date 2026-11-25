@@ -1,0 +1,6 @@
+{
+  "name": "Tá On Mídia",
+  "description": "Sistema completo de gestão de TV Indoor, CRM comercial, playlists, conteúdos dinâmicos e controle de players Android APK.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
